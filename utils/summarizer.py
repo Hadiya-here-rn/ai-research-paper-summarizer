@@ -1,9 +1,11 @@
 from transformers import pipeline
 
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-
 def summarize_text(text: str) -> str:
     if len(text) > 1000:
         text = text[:1000]
+
+    # Load model only when this function is used
+    summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
     result = summarizer(text, max_length=120, min_length=30, do_sample=False)
     return result[0]["summary_text"]
